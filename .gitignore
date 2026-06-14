@@ -1,0 +1,15 @@
+# Build artifacts (regenerate with scripts/build.sh + scripts/mkdisk.sh)
+build/
+
+# Merlin32 stray outputs (if ever written next to sources)
+src/_FileInformation.txt
+src/error_output.txt
+src/*_Output.txt
+src/*_Symbols.txt
+
+# Python test caches
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
