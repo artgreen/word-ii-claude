@@ -142,6 +142,19 @@ directory parser. The acceptance scripts boot the generated disk image and
 confirm boot, the 80-column UI, editing, save/reopen, and the file picker on
 real ProDOS.
 
+> **Note on microM8 compatibility.** The acceptance tier drives microM8
+> through its scriptable MCP/CLI control plane (loading memory, typing keys,
+> reading the text screen back). It was developed and verified against a
+> specific microM8 build whose control-plane interface had been extended for
+> this work; the command and tool surface there may differ from a stock
+> [microM8](https://paleotronic.com/software/microm8/) release. If you point
+> `MICROM8_DIR` at a different build, expect the acceptance scripts to need
+> adjustment — the harness assumes that build's MCP/CLI behavior, so it is not
+> guaranteed to run unchanged elsewhere. The **unit tier above has no such
+> dependency** and is the portable way to verify the binary; everyday emulation
+> (the `microM8 -drive1 …` launch under [Running it](#running-it)) uses only
+> standard flags and is unaffected.
+
 ## Known limitations
 
 - **Document capacity** is the ~20 KB main-memory text heap (M0–M4). The heap
