@@ -133,7 +133,7 @@ README so files interchange with other ProDOS text tools.
 
 ## Testing strategy
 
-Two tiers, per the 6502-testing skill:
+Two tiers:
 
 - **Unit (py65, `tests/`)**: load the real merlin32 binary, drive routines by
   symbol, assert on memory. Covers docstore invariants, screen encoding,

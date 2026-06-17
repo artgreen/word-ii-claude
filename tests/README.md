@@ -1,8 +1,9 @@
 # Word II — Test Suite
 
-Two tiers, per the 6502-testing methodology. Both run against the **real
-merlin32-built binary** (`build/WORDII.SYSTEM` + its symbol file), not a
-re-creation.
+Two tiers. Both run against the **real merlin32-built binary**
+(`build/WORDII.SYSTEM` + its symbol file), not a re-creation. The py65
+simulator harness (`sim.py` + `harness.py`) is vendored in `vendor/`, so the
+unit tier needs only the `py65` package.
 
 ## Tier 1 — unit tests (py65, instant)
 
@@ -14,7 +15,8 @@ undo, the directory parser, and the MLI wrappers against a *faked* MLI. Anything
 needing real banking or screen hardware is verified in Tier 2.
 
 ```
-~/.claude/skills/6502-codegen/.venv/bin/python tests/run_tests.py
+pip install py65
+python3 tests/run_tests.py
 ```
 
 `run_tests.py` discovers every `test_*.py` and runs each `test_*` function.
@@ -23,15 +25,18 @@ needing real banking or screen hardware is verified in Tier 2.
 |------|--------|
 | `test_screen.py`   | row-base table, PUTRAW address math |
 | `test_editor.py`   | document store + every cursor/edit/split/join command |
+| `test_heap.py`     | text-heap accounting (FREE), compaction, alloc-on-full |
 | `test_wrap.py`     | word-wrap break-point selection (FIND_WRAP) |
 | `test_fileio.py`   | save MLI call sequence (faked MLI), TXT parse + translate |
 | `test_filer.py`    | ProDOS directory-block parsing, path building |
 | `test_search.py`   | find (case-insensitive, wrap), replace |
 | `test_clip_undo.py`| copy/cut/paste/select-all, one-level undo |
+| `test_picker_scroll.py` | file-picker scrollbar thumb math |
+| `test_confirm.py`  | buttoned confirm dialog result handling |
 | `test_review_fixes.py` | regressions for the 6 review findings |
 | `test_goto_wordcount.py` | Go To Line number parse, document word count + report string |
 
-Current count: **60 tests, all passing.**
+Current count: **80 tests, all passing.**
 
 ## Tier 2 — acceptance tests (microM8, seconds)
 
@@ -48,8 +53,9 @@ bash tests/acceptance/m3_files.sh   # opens the directory picker, loads WELCOME.
 ```
 
 `tests/acceptance/lib.sh` manages the emulator lifecycle (launch on the disk,
-wait for the `]` prompt, drive via the 6502-testing `m8.py` CLI) and provides
-`assert_contains`. Each script exits non-zero on failure.
+wait for the `]` prompt, drive via the vendored `vendor/m8.py` MCP CLI) and
+provides `assert_contains`. Set `MICROM8_DIR` to your microM8 install; the
+driver needs the `mcp` package. Each script exits non-zero on failure.
 
 ### Notes / gotchas observed
 - Read the screen with `m8.py text` (`get_text_screen_full`) — it is the only

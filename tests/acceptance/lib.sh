@@ -3,13 +3,14 @@
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-M8DIR="/Users/green/projects/microm8-cln"
-SKILL="/Users/green/Documents/agent-skills/6502-testing"
+# Path to a microM8 install (https://paleotronic.com/software/microm8/).
+M8DIR="${MICROM8_DIR:?set MICROM8_DIR to your microM8 install directory}"
+DRIVER="$ROOT/tests/vendor/m8.py"      # vendored MCP driver CLI (needs the `mcp` pkg)
 DISK="$ROOT/build/WORDII.po"
 PORT="${M8PORT:-8080}"
 
 # drive <m8.py args...> : run the driver CLI, echo its stdout
-drive() { ( cd "$SKILL" && uv run --with mcp python scripts/m8.py "$@" ); }
+drive() { uv run --with mcp python "$DRIVER" "$@"; }
 
 # m8_boot : (re)launch the emulator on $DISK and wait for the ] prompt
 m8_boot() {

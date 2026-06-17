@@ -5,7 +5,9 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-LIB="/Users/green/merlin32/Library"
+# Merlin32's macro/library directory. Override with MERLIN32_LIB if it lives
+# elsewhere (e.g. export MERLIN32_LIB=/opt/merlin32/Library).
+LIB="${MERLIN32_LIB:-$HOME/merlin32/Library}"
 BUILD="$ROOT/build"
 mkdir -p "$BUILD"
 

@@ -15,11 +15,11 @@ undocumented opcodes.
 
 Word II is a ProDOS **SYS** program (`WORDII.SYSTEM`, loads at `$2000`).
 
-**In the microM8 emulator** (the verified path):
+**In the [microM8](https://paleotronic.com/software/microm8/) emulator** (the
+verified path) — boot the built disk image:
 
 ```
-cd /Users/green/projects/microm8-cln
-./microM8 -no-update -drive1 /Users/green/projects/word-ii-claude/build/WORDII.po
+microM8 -no-update -drive1 build/WORDII.po
 ```
 
 The disk boots ProDOS to the BASIC `]` prompt; launch Word II with:
@@ -112,20 +112,28 @@ scripts/build.sh     # assemble with Merlin32 -> build/WORDII.SYSTEM (+ symbols)
 scripts/mkdisk.sh    # stage WORDII.SYSTEM onto a bootable ProDOS disk -> build/WORDII.po
 ```
 
-Requires `merlin32` and `cp2` (CiderPress II) on `PATH`.
+Requires [`merlin32`](https://github.com/apple2infinitum/Merlin32) and
+[`cp2`](https://github.com/fadden/CiderPress2) (CiderPress II) on `PATH`.
+`build.sh` reads Merlin32's library from `$MERLIN32_LIB` (default
+`$HOME/merlin32/Library`); `mkdisk.sh` needs `$PRODOS_TEMPLATE` pointing at a
+bootable ProDOS disk image to clone (most Apple II emulators ship one).
 
 ## Testing
 
-Two tiers (see the 6502-testing methodology):
+Two tiers. The py65 simulator harness is vendored in `tests/vendor/`, so the
+unit tier needs only the [`py65`](https://pypi.org/project/py65/) package:
 
 ```
 # Unit tests: drive the real binary's routines by symbol in the py65 simulator
-~/.claude/skills/6502-codegen/.venv/bin/python tests/run_tests.py
+pip install py65
+python3 tests/run_tests.py
 
 # Acceptance tests: boot the disk in microM8 and drive it like a real machine
-bash tests/acceptance/m1_boot.sh
-bash tests/acceptance/m2_edit.sh
-bash tests/acceptance/m3_files.sh
+# (needs microM8 + the `mcp` package; set MICROM8_DIR to your microM8 install)
+pip install mcp
+MICROM8_DIR=/path/to/microM8 bash tests/acceptance/m1_boot.sh
+MICROM8_DIR=/path/to/microM8 bash tests/acceptance/m2_edit.sh
+MICROM8_DIR=/path/to/microM8 bash tests/acceptance/m3_files.sh
 ```
 
 The unit suite covers the document store, cursor/edit logic, word wrap, search/

@@ -6,7 +6,7 @@ Status as of the M0–M4 + finalization pass.
 
 Every item below is exercised by automated tests — py65 unit tests that drive
 the **real assembled binary** by symbol name, and/or microM8 acceptance scripts
-that boot the **generated disk** and drive it like a real Apple II. 60 unit
+that boot the **generated disk** and drive it like a real Apple II. 80 unit
 tests + 3 acceptance scripts, all green.
 
 ### Platform / boot (M0–M1)

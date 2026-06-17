@@ -1,8 +1,9 @@
 """Shared test harness for Word II unit tests (py65 tier).
 
-Loads the real merlin32-built binary and drives its routines by symbol name,
-per the 6502-testing skill. The 6502-codegen skill owns the py65 core; this
-just wires sim.py to our build artifacts.
+Loads the real merlin32-built binary and drives its routines by symbol name.
+The py65-backed simulator core is vendored in tests/vendor/ (sim.py +
+harness.py); the only external dependency is the `py65` package
+(`pip install py65`).
 
 Note: py65 is a flat-64K 6502 model with no Apple II aux-memory banking, so
 screen *rendering* (which depends on main/aux banking) is verified in microM8,
@@ -13,9 +14,9 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKILL = "/Users/green/Documents/agent-skills/6502-testing/scripts"
-if SKILL not in sys.path:
-    sys.path.insert(0, SKILL)
+VENDOR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vendor")
+if VENDOR not in sys.path:
+    sys.path.insert(0, VENDOR)
 
 import sim  # noqa: E402
 

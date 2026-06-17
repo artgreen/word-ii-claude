@@ -1,0 +1,5 @@
+# Unit tier (tests/run_tests.py): py65 6502 simulator
+py65
+
+# Acceptance tier (tests/acceptance/*.sh): MCP client for the microM8 driver
+mcp

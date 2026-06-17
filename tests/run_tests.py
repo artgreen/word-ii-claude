@@ -2,10 +2,10 @@
 """Word II unit-test runner (py65 tier).
 
 Discovers test_*.py modules in this directory and runs every `test_*`
-function. Each test raises AssertionError on failure. Run with the
-6502-codegen venv:
+function. Each test raises AssertionError on failure. Requires py65
+(`pip install py65`); the simulator harness is vendored in tests/vendor/:
 
-    ~/.claude/skills/6502-codegen/.venv/bin/python tests/run_tests.py
+    python3 tests/run_tests.py
 """
 import importlib
 import os

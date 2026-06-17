@@ -7,7 +7,10 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BUILD="$ROOT/build"
-TEMPLATE="/Users/green/projects/microm8-cln/prodos402.dsk"
+# A known-bootable ProDOS disk image (ProDOS + BASIC.SYSTEM) to start from.
+# ProDOS is Apple's; supply your own image and point PRODOS_TEMPLATE at it
+# (most Apple II emulators ship a bootable ProDOS .dsk/.po you can copy).
+TEMPLATE="${PRODOS_TEMPLATE:?set PRODOS_TEMPLATE to a bootable ProDOS disk image}"
 DISK="$BUILD/WORDII.po"
 STAGE="$BUILD/stage"
 
